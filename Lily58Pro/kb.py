@@ -5,26 +5,25 @@ from kmk.scanners import DiodeOrientation
 from kmk.scanners.keypad import MatrixScanner
 
 class KMKKeyboard(_KMKKeyboard):
-    
     col_pins = (
-        board.pins[17],
-        board.pins[16],
-        board.pins[15],
-        board.pins[14],
-        board.pins[13],
-        board.pins[12],
+        board.GP17,
+        board.GP16,
+        board.GP15,
+        board.GP14,
+        board.GP13,
+        board.GP12,
     )
     row_pins = (
-        board.pins[7],
-        board.pins[8],
-        board.pins[9],
-        board.pins[10],
-        board.pins[11],
+        board.GP7,
+        board.GP8,
+        board.GP9,
+        board.GP10,
+        board.GP11,
     )
     diode_orientation = DiodeOrientation.COLUMNS
-    uart_pin = board.pins[1]  # Correct UART pin, adjust if necessary
+    uart_pin = board.GP1  # Correct UART pin, adjust if necessary
     rgb_pixel_pin = None  # No RGB support
-    data_pin = board.pins[1] # Assuming UART split is used on GP1
+    data_pin = board.GP1  # Assuming UART split is used on GP1
     i2c = board.I2C
 
     coord_mapping = [
@@ -34,6 +33,17 @@ class KMKKeyboard(_KMKKeyboard):
     18, 19, 20, 21, 22, 23,  53, 52, 51, 50, 49, 48,
         25, 26, 27, 28, 29,  59, 58, 57, 56, 55,
     ]
-    # flake8: noqa
+     # flake8: noqa
     # fmt: off
 
+# MatrixScanner for scanning key matrix
+class MyKeyboard(KMKKeyboard):
+    def __init__(self):
+        super().__init__()
+        self.matrix = MatrixScanner(
+            column_pins=self.col_pins,
+            row_pins=self.row_pins,
+            columns_to_anodes=self.diode_orientation,
+        )
+
+keyboard = MyKeyboard()

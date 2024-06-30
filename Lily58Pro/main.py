@@ -1,8 +1,44 @@
-from kb import KMKKeyboard
+import board
+from kmk.kmk_keyboard import KMKKeyboard as _KMKKeyboard
 from kmk.modules.split import Split, SplitSide, SplitType
 from kmk.modules.layers import Layers
 from kmk.keys import KC
+from kmk.scanners import DiodeOrientation
 
+class KMKKeyboard(_KMKKeyboard):
+    col_pins = (
+        board.GP17,
+        board.GP16,
+        board.GP15,
+        board.GP14,
+        board.GP13,
+        board.GP12,
+    )
+    row_pins = (
+        board.GP7,
+        board.GP8,
+        board.GP9,
+        board.GP10,
+        board.GP11,
+    )
+    diode_orientation = DiodeOrientation.COLUMNS
+    uart_pin = board.GP1  # Correct UART pin, adjust if necessary
+    rgb_pixel_pin = None  # No RGB support
+    data_pin = board.GP1  # Assuming UART split is used on GP1
+    i2c = board.I2C
+
+    coord_mapping = [
+        0,  1,  2,  3,  4,  5,  35, 34, 33, 32, 31, 30,
+        6,  7,  8,  9, 10, 11,  41, 40, 39, 38, 37, 36,
+        12, 13, 14, 15, 16, 17,  47, 46, 45, 44, 43, 42,
+        18, 19, 20, 21, 22, 23,  53, 52, 51, 50, 49, 48,
+        XXXXXXX, 25, 26, 27, 28, 29,  59, 58, 57, 56, 55,
+    ]
+
+    # flake8: noqa
+    # fmt: off
+
+# Initialize the keyboard
 keyboard = KMKKeyboard()
 
 # Cleaner key names
@@ -13,15 +49,14 @@ LOWER = KC.MO(1)
 RAISE = KC.MO(2)
 ADJUST = KC.LT(3, KC.SPC)
 
-# Adding extensions
+# Adding modules
 # TODO Comment one of these on each side
-#split_side = SplitSide.LEFT
-#split_side = SplitSide.RIGHT
+# split_side = SplitSide.LEFT
+# split_side = SplitSide.RIGHT
 split = Split(split_side=SplitSide.LEFT, use_pio=True)  # Left half as master
 keyboard.modules.append(split)
 layers = Layers()
 keyboard.modules.append(layers)
-#keyboard.extensions = [layers, split]
 
 keyboard.keymap = [
     [  # QWERTY
