@@ -1,6 +1,6 @@
 from kb import KMKKeyboard
-from kmk.extensions.split import Split, SplitSide
-from kmk.extensions.layers import Layers
+from kmk.modules.split import Split, SplitSide, SplitType
+from kmk.modules.layers import Layers
 from kmk.keys import KC
 
 keyboard = KMKKeyboard()
@@ -18,9 +18,10 @@ ADJUST = KC.LT(3, KC.SPC)
 #split_side = SplitSide.LEFT
 #split_side = SplitSide.RIGHT
 split = Split(split_side=SplitSide.LEFT, use_pio=True)  # Left half as master
+keyboard.modules.append(split)
 layers = Layers()
-
-keyboard.extensions = [layers, split]
+keyboard.modules.append(layers)
+#keyboard.extensions = [layers, split]
 
 keyboard.keymap = [
     [  # QWERTY
