@@ -6,24 +6,24 @@ from kmk.scanners.keypad import MatrixScanner
 
 class KMKKeyboard(_KMKKeyboard):
     col_pins = (
-        board.GP17,
-        board.GP16,
-        board.GP15,
-        board.GP14,
-        board.GP13,
-        board.GP12,
+        board.A1,
+        board.A0,
+        board.SCK,
+        board.MISO,
+        board.MOSI,
+        board.D10,
     )
     row_pins = (
-        board.GP7,
-        board.GP8,
-        board.GP9,
-        board.GP10,
-        board.GP11,
+        board.D5,
+        board.D6,
+        board.D7,
+        board.D8,
+        board.D9,
     )
     diode_orientation = DiodeOrientation.COLUMNS
-    uart_pin = board.GP1  # Correct UART pin, adjust if necessary
+    uart_pin = board.D1  # Correct UART pin, adjust if necessary
     rgb_pixel_pin = None  # No RGB support
-    data_pin = board.GP1  # Assuming UART split is used on GP1
+    data_pin = board.D1  # Assuming UART split is used on GP1
     i2c = board.I2C
 
     coord_mapping = [
